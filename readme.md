@@ -15,26 +15,33 @@ cd <name of repository>
 cp .env.example .env
 composer install
 php artisan key:generate
+php artisan migrate
 ```
 Проверьте и настройте очереди в [config/queue.php](config/queue.php):
 - Connection type: beanstalkd
 - Queue name: notification
 
-Для выполнения этого задания разрешается использование кода предыдущих домашних заданий.
-
 #### Задание
 
-Основная цель задания: после изменения администратором курса какой-либо из валют в БД, необходимо проинформировать с помощью информационного Email всех
+Необходимо создать ресурс изменения курса валют:
+```
+PUT /api/currencies/{id}/rate
+{
+    rate: <float>
+}
+```
+
+Курс валют может изменять только администратор. При изменении курса валюты необходимо проинформировать с помощью информационного Email всех
 пользователей из таблицы users по соответствующим email-адресам.
 
-* Реализовать job класс класс App\Jobs\SendCourseChangedEmail для отправки Email об изменении курса валюты всем пользователям из таблицы users
-* Job должен получать модель User и Currency, и отправлять следующий текст:
+* Реализовать job класс App\Jobs\SendRateChangedEmail для отправки Email об изменении курса валюты всем пользователям из таблицы users
+* Job должен получать модель User, Currency и предыдущее значение курса, и отправлять следующий текст:
 ```
 Dear <user name>,
 
-<currency name> exchange rate has been changed to <new rate>!
+<currency name> exchange rate has been changed from <old rate> to <new rate>!
 
-Best regards,
+Thanks,
 Crypto Market Service!
 ```
 
