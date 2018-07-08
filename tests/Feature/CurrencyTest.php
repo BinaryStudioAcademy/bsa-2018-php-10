@@ -19,12 +19,6 @@ class CurrencyTest extends TestCase
         $user1 = factory(User::class)->create([
             "is_admin" => false
         ]);
-        $user2 = factory(User::class)->create([
-            "is_admin" => false
-        ]);
-        $user3 = factory(User::class)->create([
-            "is_admin" => false
-        ]);
         $user = factory(User::class)->create([
             "is_admin" => true
         ]);
